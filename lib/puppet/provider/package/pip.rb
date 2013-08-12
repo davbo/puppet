@@ -82,6 +82,10 @@ Puppet::Type.type(:package).provide :pip,
     else
       case @resource[:ensure]
       when String
+        if @resource[:ensure].end_with? '#wheel'
+            args << "--use-wheel"
+            @resource[:ensure] = @resource[:ensure].sub('#wheel', '')
+        end
         args << "#{@resource[:name]}==#{@resource[:ensure]}"
       when :latest
         args << "--upgrade" << @resource[:name]
