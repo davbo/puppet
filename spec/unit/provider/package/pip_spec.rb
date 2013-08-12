@@ -184,6 +184,13 @@ describe provider_class do
       @provider.install
     end
 
+    it "should install the wheel version" do
+        @resource[:ensure] = "0.0.0#wheel"
+        @resource[:source] = nil
+        @provider.expects(:lazy_pip).
+            with("install", "-q", "--use-wheel", "fake_package==0.0.0")
+        @provider.install
+    end
   end
 
   describe "uninstall" do
